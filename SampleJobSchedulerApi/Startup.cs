@@ -17,6 +17,7 @@ namespace RecruitmentApi
 {
     public class Startup
     {
+        private readonly string _corsPolicy = "CorsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -42,18 +43,20 @@ namespace RecruitmentApi
 
             var configOptions = Configuration.GetSection<ConfigOptions>();
 
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+            services.AddCors(o => o.AddPolicy(_corsPolicy, builder =>
+            {
                 builder.SetIsOriginAllowed(host => configOptions.AllowedOrigins.Any(origin => origin.TrimEnd(new[] { '/' }).Equals(host.TrimEnd(new[] { '/' }))))
                     .WithOrigins(configOptions.AllowedOrigins.ToArray())
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
-
-                services
-                .AddSingleton<IDataSeed, DataSeed>()
-                .AddTransient<IRecruitmentService, RecruitmentService>()
-                .AddHostedService<SyncService>();
             }));
+
+            services
+            .AddSingleton<IDataSeed, DataSeed>()
+            .AddTransient<IRecruitmentService, RecruitmentService>()
+            .AddHostedService<SyncService>();
+
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -65,12 +68,15 @@ namespace RecruitmentApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RecruitmentApi v1"));
             }
 
+            app.UseCors(_corsPolicy);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SelectedApplicantsComponent } from './selected-applicants/selected-applicants.component';
 import { SearchApplicantsComponent } from './search-applicants/search-applicants.component';
+import { RecruitmentService } from './services/recruitment-service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,9 +16,10 @@ import { SearchApplicantsComponent } from './search-applicants/search-applicants
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [RecruitmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
