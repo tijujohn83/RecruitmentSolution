@@ -7,3 +7,10 @@ public enum ApplicationStatus
     Accepted,
     Rejected
 }
+
+public enum UpdateStatusResult
+{
+    NotFound,
+    Success,
+    Failure
+}

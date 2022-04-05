@@ -14,21 +14,47 @@ namespace RecruitmentApi.Service
                 .ToList();
         }
 
+        public IEnumerable<Candidate> GetRejectedCandidates()
+        {
+            return InMemoryDatabase.GetCandidates()
+              .Where(c => c.Status == ApplicationStatus.Rejected)
+              .ToList();
+        }
+
+        public IEnumerable<Technology> GetTechnologies()
+        {
+            return InMemoryDatabase.GetTechnologies();
+        }
+
         public IEnumerable<Candidate> SearchCandidates(SearchCriteria searchCriteria)
         {
             return InMemoryDatabase.GetCandidates()
-                .Where(c => !searchCriteria.Technologies.Except(c.Experiences.Select(t => t.TechnologyId)).Any())
-                .Where(c => c.Ex searchCriteria)
+                .Where(c =>
+                {
+                    return c.Status == ApplicationStatus.Open
+                    && searchCriteria.Experiences.Aggregate(true, (eligible, currentCriteria) =>
+                    {
+                        return eligible && c.Experience.Any(e => e.TechnologyId == currentCriteria.TechnologyId && e.YearsOfExperience >= currentCriteria.YearsOfExperience);
+                    });
+                })
                 .ToList();
         }
 
-        public CandidateStatus UpdateStatus(CandidateStatus candidateStatus)
+        public UpdateStatusResult UpdateStatus(CandidateStatus candidateStatus)
         {
-            InMemoryDatabase.Candidates[candidateStatus.Candidate.CandidateId].Status = candidateStatus.Status;
-            return new CandidateStatus { 
-                Candidate = InMemoryDatabase.Candidates[candidateStatus.Candidate.CandidateId], 
-                Status = InMemoryDatabase.Candidates[candidateStatus.Candidate.CandidateId].Status 
-            };
+            InMemoryDatabase.Candidates.TryGetValue(candidateStatus.CandidateId, out Candidate candidate);
+            if (candidate == null)
+            {
+                return UpdateStatusResult.NotFound;
+            }
+            if (candidate.Status == ApplicationStatus.Open)
+            {
+                candidate.Status = candidateStatus.Status;
+                return UpdateStatusResult.Success;
+            }
+            return UpdateStatusResult.Failure;
         }
+
+
     }
 }

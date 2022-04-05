@@ -2,7 +2,8 @@
 {
     public class CandidateStatus
     {
-        public Candidate Candidate { get; set; }
+        public string CandidateId { get; set; }
         public ApplicationStatus Status { get; set; }
     }
+
 }

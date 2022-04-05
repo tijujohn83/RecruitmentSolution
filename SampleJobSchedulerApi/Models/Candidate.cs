@@ -16,7 +16,7 @@ namespace JobApi.Models
         public string Mom { get; set; }
         public bool CanSwim { get; set; }
         public string Barcode { get; set; }
-        public List<Experience> Experiences { get; set; }
+        public IEnumerable<Experience> Experience { get; set; }
 
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Open;
     }

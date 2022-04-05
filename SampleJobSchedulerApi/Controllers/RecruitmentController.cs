@@ -30,10 +30,26 @@ namespace RecruitmentApi.Controllers
             return Ok(_recruitmentService.GetAcceptedCandidates());
         }
 
+        [HttpGet("rejected")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<Candidate>> GetRejected()
+        {
+            //todo validate input for all methods
+            return Ok(_recruitmentService.GetRejectedCandidates());
+        }
+
+        [HttpGet("technologies")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<Candidate>> GetTechnologies()
+        {
+            //todo validate input for all methods
+            return Ok(_recruitmentService.GetTechnologies());
+        }
+
         [HttpPost("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<Candidate>> Search(SearchCriteria searchCriteria)
-        {            
+        {
             return Ok(_recruitmentService.SearchCandidates(searchCriteria));
         }
 
@@ -42,11 +58,19 @@ namespace RecruitmentApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<CandidateStatus> SetCandidateStatus(CandidateStatus candidateStatus)
-        {           
-            return Ok(_recruitmentService.UpdateStatus(candidateStatus));
+        public ActionResult<UpdateStatusResult> SetCandidateStatus(CandidateStatus candidateStatus)
+        {
+            var updateStatusResult = _recruitmentService.UpdateStatus(candidateStatus);
+            if (updateStatusResult == UpdateStatusResult.NotFound)
+            {
+                return NotFound("Candidate does not exist");
+            }
+            if (updateStatusResult == UpdateStatusResult.Failure)
+            {
+                return BadRequest("This candidate is locked");
+            }
+            return Ok(updateStatusResult.ToString());
         }
-
 
     }
 }

@@ -7,7 +7,9 @@ namespace RecruitmentApi.Service
     public interface IRecruitmentService
     {
         public IEnumerable<Candidate> GetAcceptedCandidates();
+        public IEnumerable<Candidate> GetRejectedCandidates();
         public IEnumerable<Candidate> SearchCandidates(SearchCriteria searchCriteria);
-        public CandidateStatus UpdateStatus(CandidateStatus candidateStatus);
+        public UpdateStatusResult UpdateStatus(CandidateStatus candidateStatus);
+        public IEnumerable<Technology> GetTechnologies();
     }
 }
