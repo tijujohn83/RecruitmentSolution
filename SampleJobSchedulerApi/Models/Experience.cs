@@ -9,7 +9,12 @@ namespace JobApi.Models
         {
             get
             {
-                return InMemoryDatabase.Technologies[TechnologyId].Name;
+                InMemoryDatabase.Technologies.TryGetValue(TechnologyId, out Technology technology);
+                if(technology != null)
+                {
+                    return technology.Name;
+                }
+                return "<Not Found>";
             }
         }
         public int YearsOfExperience { get; set; }
