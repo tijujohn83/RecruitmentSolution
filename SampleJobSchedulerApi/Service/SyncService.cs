@@ -18,10 +18,10 @@ namespace RecruitmentApi.Service
         private CancellationToken _cancellationToken;
         private IDataSeed _dataSeed;
         private readonly ILogger<SyncService> _logger;
-        private readonly SourceOptions _sourceOptions;
+        private readonly ConfigOptions _sourceOptions;
 
 
-        public SyncService(ILogger<SyncService> logger, IDataSeed dataSeed, IOptions<SourceOptions> sourceOptions)
+        public SyncService(ILogger<SyncService> logger, IDataSeed dataSeed, IOptions<ConfigOptions> sourceOptions)
         {
             _logger = logger;
             _dataSeed = dataSeed;

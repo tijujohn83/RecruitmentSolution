@@ -15,13 +15,13 @@ namespace RecruitmentApi.Service
     public class DataSeed : IDataSeed
     {
         private readonly ILogger<DataSeed> _logger;
-        private SourceOptions _sourceOptions;
+        private ConfigOptions _sourceOptions;
         private readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {
             PropertyNameCaseInsensitive = true
         };
 
-    public DataSeed(IOptions<SourceOptions> sourceOptions, ILogger<DataSeed> logger)
+    public DataSeed(IOptions<ConfigOptions> sourceOptions, ILogger<DataSeed> logger)
         {
             _sourceOptions = sourceOptions.Value;
             _logger = logger;

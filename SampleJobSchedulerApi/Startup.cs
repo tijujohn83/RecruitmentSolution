@@ -10,6 +10,8 @@ using RecruitmentApi.Middleware;
 using RecruitmentApi.Models;
 using RecruitmentApi.Service;
 using System.Net;
+using RecruitmentApi.Extensions;
+using System.Linq;
 
 namespace RecruitmentApi
 {
@@ -25,11 +27,11 @@ namespace RecruitmentApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SourceOptions>(Configuration.GetSection("SourceOptions"));
+            services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
-            }); 
+            });
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             services.AddSwaggerGen(c =>
             {
@@ -38,12 +40,21 @@ namespace RecruitmentApi
 
             var healthChecksBuilder = services.AddHealthChecks();
 
-            services
+            var configOptions = Configuration.GetSection<ConfigOptions>();
+
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+                builder.SetIsOriginAllowed(host => configOptions.AllowedOrigins.Any(origin => origin.TrimEnd(new[] { '/' }).Equals(host.TrimEnd(new[] { '/' }))))
+                    .WithOrigins(configOptions.AllowedOrigins.ToArray())
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+
+                services
                 .AddSingleton<IDataSeed, DataSeed>()
                 .AddTransient<IRecruitmentService, RecruitmentService>()
                 .AddHostedService<SyncService>();
+            }));
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
