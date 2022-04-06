@@ -60,6 +60,11 @@ export enum UpdateStatusResult {
     Failure = 'Failure'
 }
 
+export enum ResetResult {
+    Success = 'Success',
+    Failure = 'Failure'
+}
+
 export class CandidateStatus {
     candidateId: string;
     status:ApplicationStatus;

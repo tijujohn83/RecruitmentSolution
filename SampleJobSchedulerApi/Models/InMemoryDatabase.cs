@@ -7,6 +7,7 @@ namespace RecruitmentApi.Models
 {
     public static class InMemoryDatabase
     {
+        public static object _lockObj = new object();
         public static ConcurrentDictionary<string, Candidate> Candidates { get; } = new ConcurrentDictionary<string, Candidate>();
         public static ConcurrentDictionary<string, Technology> Technologies { get; } = new ConcurrentDictionary<string, Technology>();
 
@@ -28,6 +29,15 @@ namespace RecruitmentApi.Models
         public static IEnumerable<Technology> GetTechnologies()
         {
             return Technologies.Values;
+        }
+
+        public static void Reset()
+        {
+            lock (_lockObj)
+            {
+                Candidates.Clear();
+                Technologies.Clear();
+            }
         }
     }
 }

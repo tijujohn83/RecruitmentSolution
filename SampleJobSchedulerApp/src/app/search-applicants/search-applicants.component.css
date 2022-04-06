@@ -7,6 +7,13 @@ table {
 .switchViews {
     display: flex;
     margin-right: 2rem;
+    background-color: lightgoldenrodyellow;
+}
+.action-select {
+    background-color: lightgreen;
+}
+.action-reject {
+    background-color: lightsalmon;
 }
 h1{
     text-align: center;
@@ -17,4 +24,11 @@ button{
 }
 .mat-sidenav-container {
     height: 60rem;
+}
+.mat-form-field {
+    width: 4rem;
+    display: inline-block;
+    position: relative;
+    text-align: right;
+    
 }

@@ -14,3 +14,9 @@ public enum UpdateStatusResult
     Success,
     Failure
 }
+
+public enum ResetResult
+{
+    Success,
+    Failure
+}

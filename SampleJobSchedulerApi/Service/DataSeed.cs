@@ -27,10 +27,19 @@ namespace RecruitmentApi.Service
             _logger = logger;
         }
 
-        public async Task Seed()
+        public async Task Seed(bool reset = false)
         {
             IEnumerable<Technology> technologies;
             IEnumerable<Candidate> candidates;
+
+            if (reset)
+            {
+                if (File.Exists(_sourceOptions.TechnologiesFile))
+                    File.Delete(_sourceOptions.TechnologiesFile);
+
+                if (File.Exists(_sourceOptions.CandidatesFile))
+                    File.Delete(_sourceOptions.CandidatesFile);
+            }
 
             try
             {

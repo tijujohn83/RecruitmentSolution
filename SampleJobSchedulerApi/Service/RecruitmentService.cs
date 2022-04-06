@@ -57,6 +57,10 @@ namespace RecruitmentApi.Service
             return UpdateStatusResult.Failure;
         }
 
+        public void Reset()
+        {
+            InMemoryDatabase.Reset();
+        }
 
     }
 }

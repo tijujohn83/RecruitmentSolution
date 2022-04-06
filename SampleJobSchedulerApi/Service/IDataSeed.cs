@@ -4,6 +4,6 @@ namespace RecruitmentApi.Service
 {
     public interface IDataSeed
     {
-        public Task Seed();
+        public Task Seed(bool reset = false);
     }
 }

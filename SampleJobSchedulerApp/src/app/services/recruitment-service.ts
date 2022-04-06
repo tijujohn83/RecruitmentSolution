@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from "rxjs";
-import { Candidate, CandidateStatus, Experience, Technology, UpdateStatusResult } from "../models/model";
+import { Candidate, CandidateStatus, Experience, ResetResult, Technology, UpdateStatusResult } from "../models/model";
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
@@ -11,6 +11,7 @@ export class RecruitmentService {
     private technologiesUrl: string;
     private searchUrl: string;
     private applicationStatusSetUrl: string;
+    private resetUrl: string;
 
     constructor(private http: HttpClient) {
         this.selectedUrl = 'https://localhost:5001/api/Recruitment/selected';
@@ -18,6 +19,7 @@ export class RecruitmentService {
         this.technologiesUrl = 'https://localhost:5001/api/Recruitment/technologies';
         this.searchUrl = 'https://localhost:5001/api/Recruitment/search';
         this.applicationStatusSetUrl = 'https://localhost:5001/api/Recruitment/application/status';
+        this.resetUrl = "https://localhost:5001/api/Recruitment/reset";
     }
 
 
@@ -48,6 +50,16 @@ export class RecruitmentService {
             }),
                 catchError((_err) => {
                     return of([]);
+                }));
+    }
+
+    reset(): Observable<ResetResult> {
+        return this.http.get(this.resetUrl)
+            .pipe(map((response: any) => {
+                return this.mapToResetResult(response);
+            }),
+                catchError((_err) => {
+                    return of(ResetResult.Failure);
                 }));
     }
 
@@ -113,5 +125,9 @@ export class RecruitmentService {
 
     mapToUpdateStatusResult(result: any): UpdateStatusResult {
         return result as UpdateStatusResult;
+    }
+
+    mapToResetResult(result: any): ResetResult {
+        return result as ResetResult;
     }
 }

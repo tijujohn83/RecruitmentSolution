@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitmentApi.Models;
 using RecruitmentApi.Service;
+using System;
 using System.Collections.Generic;
 
 namespace RecruitmentApi.Controllers
@@ -21,6 +22,22 @@ namespace RecruitmentApi.Controllers
             _recruitmentService = recruitmentService;
         }
 
+        [HttpGet("reset")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<ResetResult> Reset()
+        {
+            var response = ResetResult.Success;
+            try
+            {
+                _recruitmentService.Reset();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                response = ResetResult.Failure;
+            }
+            return Ok(response);
+        }
 
         [HttpGet("selected")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -60,7 +77,7 @@ namespace RecruitmentApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<UpdateStatusResult> SetCandidateStatus(CandidateStatus candidateStatus)
         {
-            if(string.IsNullOrEmpty(candidateStatus.CandidateId))
+            if (string.IsNullOrEmpty(candidateStatus.CandidateId))
             {
                 return BadRequest("CandidateId not provided");
             }

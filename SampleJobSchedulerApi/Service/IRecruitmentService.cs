@@ -11,5 +11,6 @@ namespace RecruitmentApi.Service
         public IEnumerable<Candidate> SearchCandidates(SearchCriteria searchCriteria);
         public UpdateStatusResult UpdateStatus(CandidateStatus candidateStatus);
         public IEnumerable<Technology> GetTechnologies();
+        public void Reset();
     }
 }

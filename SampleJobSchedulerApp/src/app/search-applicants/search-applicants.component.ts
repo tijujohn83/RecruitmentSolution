@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { pipe } from 'rxjs';
-import { ApplicationStatus, Candidate, CandidateStatus, Technology } from '../models/model';
+import { delay } from 'rxjs/operators';
+import { ApplicationStatus, Candidate, CandidateStatus, Experience, ResetResult, Technology } from '../models/model';
 import { RecruitmentService } from '../services/recruitment-service';
 
 @Component({
@@ -15,7 +15,8 @@ export class SearchApplicantsComponent implements OnInit {
   technologiesDataSource: MatTableDataSource<Technology> = new MatTableDataSource<Technology>();
 
   technologiesColumns: string[] = [
-    'name'
+    'name',
+    'actions'
   ];
   candidateColumns: string[] = [
     '#',
@@ -28,45 +29,74 @@ export class SearchApplicantsComponent implements OnInit {
     'actions'
   ];
 
+  experienceFilter: { technologyId: string, yearsOfExperience: number, selected: boolean }[] = [];
+
   constructor(private recruitmentService: RecruitmentService) {
   }
 
   ngOnInit(): void {
     this.recruitmentService.getTechnologies()
       .pipe()
-      .subscribe((applicants) => {
-        this.technologiesDataSource.data = applicants;
+      .subscribe((technologies) => {
+        this.technologiesDataSource.data = technologies;
+        this.experienceFilter = technologies.map(tech => {
+          return { technologyId: tech.guid, yearsOfExperience: 0, selected: false };
+        })
       });
 
-      this.search();
+    this.search();
   }
 
   search(): void {
-    this.recruitmentService.searchApplicants([])
+    this.recruitmentService.searchApplicants(this.experienceFilter.filter(exp => exp.selected)
+      .map(exp => <Experience>{ technologyId: exp.technologyId, yearsOfExperience: exp.yearsOfExperience }))
       .pipe()
-      .subscribe((applicants) => {
-        this.candidateDataSource.data = applicants;
+      .subscribe((candidates) => {
+        this.candidateDataSource.data = candidates;
       })
   }
 
   select(candidate: Candidate) {
     this.recruitmentService.setApplicationStatus(<CandidateStatus>{ candidateId: candidate.candidateId, status: ApplicationStatus.Selected })
-    .pipe()
-    .subscribe(result => {
-      if(result) {
+      .pipe()
+      .subscribe(result => {
+        if (result) {
           this.search();
-      }
-    })
+        }
+      })
   }
 
   reject(candidate: Candidate) {
     this.recruitmentService.setApplicationStatus(<CandidateStatus>{ candidateId: candidate.candidateId, status: ApplicationStatus.Rejected })
-    .pipe()
-    .subscribe(result => {
-      if(result) {
+      .pipe()
+      .subscribe(result => {
+        if (result) {
           this.search();
-      }
-    })
+        }
+      })
+  }
+
+  technologySelectionChanged(event: any, technology: Technology): void {
+    var exp = this.experienceFilter.find(exp => exp.technologyId === technology.guid);
+    if (exp != undefined) {
+      exp.selected = event.checked;
+    }
+
+  }
+
+  yearsChanged(event: any, technology: Technology): void {
+    var exp = this.experienceFilter.find(exp => exp.technologyId === technology.guid);
+    if (exp != undefined) {
+      exp.yearsOfExperience = event.srcElement.value;
+    }
+  }
+
+  resetServerData(): void {
+    this.recruitmentService.reset()
+      .pipe(delay(3000))
+      .subscribe(() => {
+        this.search();
+      });
   }
 
 }
