@@ -24,7 +24,6 @@ export class SearchApplicantsComponent implements OnInit {
     'lastName',
     'gender',
     'email',
-    'status',
     'experienceSummary',
     'actions'
   ];

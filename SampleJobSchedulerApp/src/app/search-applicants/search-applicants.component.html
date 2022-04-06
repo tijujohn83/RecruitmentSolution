@@ -30,22 +30,24 @@
 
             <ng-container [matColumnDef]="'#'">
                 <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-                <mat-cell *matCellDef="let candidate; let i = index;">{{ i + 1 }}</mat-cell>
+                <mat-cell *matCellDef="let candidate; let i = index;">{{ i + 1 }}
+                    <img class="profilePicture" src="{{candidate['profilePicture']}}" />
+                </mat-cell>
             </ng-container>
             <ng-container [matColumnDef]="'firstName'">
-                <mat-header-cell *matHeaderCellDef>firstName</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
                 <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['firstName'] }}</mat-cell>
             </ng-container>
             <ng-container [matColumnDef]="'lastName'">
-                <mat-header-cell *matHeaderCellDef>lastName</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
                 <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['lastName'] }}</mat-cell>
             </ng-container>
             <ng-container [matColumnDef]="'gender'">
-                <mat-header-cell *matHeaderCellDef>gender</mat-header-cell>
-                <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['gender'] }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef>Gender</mat-header-cell>
+                <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['gender'] === 1 ? 'Female' : 'Male'  }}</mat-cell>
             </ng-container>
             <ng-container [matColumnDef]="'email'">
-                <mat-header-cell *matHeaderCellDef>email</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
                 <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['email'] }}</mat-cell>
             </ng-container>
             <ng-container [matColumnDef]="'status'">
@@ -53,7 +55,7 @@
                 <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['status'] }}</mat-cell>
             </ng-container>
             <ng-container [matColumnDef]="'experienceSummary'">
-                <mat-header-cell *matHeaderCellDef>experienceSummary</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Summary</mat-header-cell>
                 <mat-cell *matCellDef="let candidate; let i = index;">{{ candidate['experienceSummary'] }}</mat-cell>
             </ng-container>
 

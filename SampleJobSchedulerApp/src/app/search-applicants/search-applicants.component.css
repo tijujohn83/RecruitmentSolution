@@ -7,13 +7,13 @@ table {
 .switchViews {
     display: flex;
     margin-right: 2rem;
-    background-color: lightgoldenrodyellow;
+    /* background-color: lightgoldenrodyellow; */
 }
 .action-select {
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
 }
 .action-reject {
-    background-color: lightsalmon;
+    /* background-color: lightsalmon; */
 }
 h1{
     text-align: center;
@@ -31,4 +31,8 @@ button{
     position: relative;
     text-align: right;
     
+}
+
+.profilePicture {
+margin-left: 1rem;
 }
