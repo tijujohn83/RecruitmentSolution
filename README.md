@@ -1,4 +1,17 @@
-# RecruitmentApi
+# Solution has two parts
+## angular front end
+## .net api back end
+
+# to run
+## angular
+npm install
+ng serve
+
+## dotnet
+dotnet run
+
+
+# Problem statement
 
 The Israeli Mossad, due to its special recruitment methods, has access to all developers in the world.  
 Their cyber units are rapidly growing, and the recruitment process must be improved to stand their needs.  
