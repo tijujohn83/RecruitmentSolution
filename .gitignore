@@ -273,3 +273,6 @@ tools/*
 
 #[Dd]ata
 SampleJobSchedulerApi/Data/*
+
+#node modules
+SampleJobSchedulerApi/node_modules/*
