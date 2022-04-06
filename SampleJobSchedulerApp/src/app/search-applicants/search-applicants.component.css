@@ -2,22 +2,19 @@ table {
     width: 100%;
 }
 .leftPanel{
-    width:25rem;    
+    width:22rem;    
 }
 .switchViews {
     display: flex;
     margin-right: 2rem;
-    /* background-color: lightgoldenrodyellow; */
-}
-.action-select {
-    /* background-color: lightgreen; */
-}
-.action-reject {
-    /* background-color: lightsalmon; */
+    margin-bottom: 1rem;
+    /* background-color: #F5F5F5; */
 }
 h1{
     text-align: center;
     padding-top: 1rem;
+    /* background-color: #F5F5F5; */
+    margin-bottom: 0;
 }
 button{
     margin-right: 1rem;
@@ -35,4 +32,6 @@ button{
 
 .profilePicture {
 margin-left: 1rem;
+border-style: solid;
+border-color: darkslategrey;
 }

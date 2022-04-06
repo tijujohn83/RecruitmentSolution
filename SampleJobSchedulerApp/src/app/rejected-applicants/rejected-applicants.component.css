@@ -8,11 +8,13 @@ table {
 .switchViews {
     display: flex;
     margin-right: 2rem;
-    background-color: lightgoldenrodyellow;
+    /* background-color: lightgoldenrodyellow; */
 }
 h1{
     text-align: center;
     padding-top: 1rem;
+    /* background-color: #F5F5F5; */
+    margin-bottom: 0;
 }
 button{
     margin-right: 1rem;
