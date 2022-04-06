@@ -1,16 +1,3 @@
-# Solution has two parts
-## angular front end
-## .net api back end
-
-# to run
-## angular
-npm install
-ng serve
-
-## dotnet
-dotnet run
-
-
 # Problem statement
 
 The Israeli Mossad, due to its special recruitment methods, has access to all developers in the world.  
@@ -35,4 +22,18 @@ https://app.ifs.aero/EternalBlue/api/candidates
 2. Against all best practices, login/auth isn't part of the task
 3. No need to model all the data from the endpoints, please choose only the fields you like - keep it simple
 4. The solution will be tested and it is expected to run without any extra steps necessary
-5. Please don't spend more than 4 hours on this task, it's alright if you don't complete it
+5. Please don't spend more than 4 hours on this task, it's alright if you don't complete it  
+  
+<br/>
+<br/>
+
+#   Solution 
+
+has two parts. Angular front end and .net api back end.
+
+-- to run angular
+npm install
+ng serve
+
+-- to run .net api
+dotnet run
