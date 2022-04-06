@@ -4,7 +4,7 @@
 public enum ApplicationStatus
 {
     Open,
-    Accepted,
+    Selected,
     Rejected
 }
 

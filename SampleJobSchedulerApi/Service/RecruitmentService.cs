@@ -10,7 +10,7 @@ namespace RecruitmentApi.Service
         public IEnumerable<Candidate> GetAcceptedCandidates()
         {
             return InMemoryDatabase.GetCandidates()
-                .Where(c => c.Status == ApplicationStatus.Accepted)
+                .Where(c => c.Status == ApplicationStatus.Selected)
                 .ToList();
         }
 

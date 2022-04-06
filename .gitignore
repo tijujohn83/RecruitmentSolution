@@ -270,3 +270,6 @@ tools/*
 
 # logs
 .[Ll]ogs/
+
+#[Dd]ata
+SampleJobSchedulerApi/Data/*
