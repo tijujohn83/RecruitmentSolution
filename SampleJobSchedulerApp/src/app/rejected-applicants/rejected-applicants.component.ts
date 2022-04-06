@@ -4,11 +4,11 @@ import { Candidate } from '../models/model';
 import { RecruitmentService } from '../services/recruitment-service';
 
 @Component({
-  selector: 'app-selected-applicants',
-  templateUrl: './selected-applicants.component.html',
-  styleUrls: ['./selected-applicants.component.css']
+  selector: 'app-rejected-applicants',
+  templateUrl: './rejected-applicants.component.html',
+  styleUrls: ['./rejected-applicants.component.css']
 })
-export class SelectedApplicantsComponent implements OnInit {
+export class RejectedApplicantsComponent implements OnInit {
 
   dataSource:MatTableDataSource<Candidate> = new MatTableDataSource<Candidate>();
   displayedColumns: string[] = [
@@ -23,9 +23,13 @@ export class SelectedApplicantsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recruitmentService.getAcceptedApplicants().subscribe((applicants) => {
+    this.recruitmentService.getRejectedApplicants().subscribe((applicants) => {
       this.dataSource.data = applicants;
     })
+  }
+
+  showAccepted() {
+    
   }
 
 }

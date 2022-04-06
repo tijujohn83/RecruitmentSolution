@@ -31,36 +31,44 @@ export class RecruitmentService {
                 }));
     }
 
-    mapToCandidateList(candidate: any[]): Candidate[] {
-        return candidate.map(c => {
-            var candidate: Candidate = {
-                CandidateId: c.CandidateId,
-                FullName: c.FullName,
-                FirstName: c.FirstName,
-                LastName: c.LastName,
-                Gender: c.Gender,
-                ProfilePicture: c.ProfilePicture,
-                Email: c.Email,
-                FavoriteMusicGenre: c.FavoriteMusicGenre,
-                Dad: c.Dad,
-                Mom: c.Mom,
-                CanSwim: c.CanSwim,
-                Barcode: c.Barcode,
-                Experience: this.mapToExprience(c.Experience),
-                Status: c.Status
-            };
-            return candidate;
+    getRejectedApplicants(): Observable<Candidate[]> {
+        return this.http.get(this.rejectedUrl)
+            .pipe(map((response: any) => {
+                return this.mapToCandidateList(response);
+            }),
+                catchError((_err) => {
+                    return of([]);
+                }));
+    }
+
+    mapToCandidateList(candidates: any[]): Candidate[] {
+        return candidates.map(c => {
+            return new Candidate({
+                candidateId: c.candidateId,
+                fullName: c.fullName,
+                firstName: c.firstName,
+                lastName: c.lastName,
+                gender: c.gender,
+                profilePicture: c.profilePicture,
+                email: c.email,
+                favoriteMusicGenre: c.favoriteMusicGenre,
+                dad: c.dad,
+                mom: c.mom,
+                canSwim: c.canSwim,
+                barcode: c.barcode,
+                experience: this.mapToExprience(c.experience),
+                status: c.status
+            });
         });
     }
 
-    mapToExprience(experience: any[]): Experience[] {
-        return experience.map(e => {
-            var experience: Experience = {
-                TechnologyId: e.TechnologyId,
-                TechnologyName: e.TechnologyName,
-                YearsOfExperience: e.YearsOfExperience
-            }
-            return experience;
+    mapToExprience(experiences: any[]): Experience[] {
+        return experiences.map(e => {
+            return new Experience({
+                technologyId: e.technologyId,
+                technologyName: e.technologyName,
+                yearsOfExperience: e.yearsOfExperience
+            });
         });
     }
 }
