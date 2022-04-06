@@ -1,0 +1,20 @@
+table {
+    width: 100%;
+}
+.leftPanel{
+    width:25rem;    
+}
+.switchViews {
+    display: flex;
+    margin-right: 2rem;
+}
+h1{
+    text-align: center;
+    padding-top: 1rem;
+}
+button{
+    margin-right: 1rem;
+}
+.mat-sidenav-container {
+    height: 60rem;
+}

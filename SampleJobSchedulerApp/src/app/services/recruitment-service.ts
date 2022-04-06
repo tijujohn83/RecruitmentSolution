@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from "rxjs";
-import { Candidate, Experience } from "../models/model";
+import { Candidate, Experience, Technology } from "../models/model";
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
@@ -41,6 +41,26 @@ export class RecruitmentService {
                 }));
     }
 
+    getTechnologies(): Observable<Technology[]> {
+        return this.http.get(this.technologiesUrl)
+            .pipe(map((response: any) => {
+                return this.mapToTechnologyList(response);
+            }),
+                catchError((_err) => {
+                    return of([]);
+                }));
+    }
+
+    searchApplicants(experience: Experience[]): Observable<Candidate[]> {
+        return this.http.post(this.searchUrl, { experiences: experience })
+            .pipe(map((response: any) => {
+                return this.mapToCandidateList(response);
+            }),
+                catchError((_err) => {
+                    return of([]);
+                }));
+    }
+
     mapToCandidateList(candidates: any[]): Candidate[] {
         return candidates.map(c => {
             return new Candidate({
@@ -68,6 +88,15 @@ export class RecruitmentService {
                 technologyId: e.technologyId,
                 technologyName: e.technologyName,
                 yearsOfExperience: e.yearsOfExperience
+            });
+        });
+    }
+
+    mapToTechnologyList(technologies: any[]): Technology[] {
+        return technologies.map(e => {
+            return new Technology({
+                name: e.name,
+                guid: e.guid
             });
         });
     }

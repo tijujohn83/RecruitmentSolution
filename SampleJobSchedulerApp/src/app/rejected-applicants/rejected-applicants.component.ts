@@ -12,6 +12,7 @@ export class RejectedApplicantsComponent implements OnInit {
 
   dataSource:MatTableDataSource<Candidate> = new MatTableDataSource<Candidate>();
   displayedColumns: string[] = [
+    '#',
     'firstName',
     'lastName',
     'gender',
@@ -26,10 +27,6 @@ export class RejectedApplicantsComponent implements OnInit {
     this.recruitmentService.getRejectedApplicants().subscribe((applicants) => {
       this.dataSource.data = applicants;
     })
-  }
-
-  showAccepted() {
-    
   }
 
 }

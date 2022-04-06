@@ -12,6 +12,7 @@ export class SelectedApplicantsComponent implements OnInit {
 
   dataSource:MatTableDataSource<Candidate> = new MatTableDataSource<Candidate>();
   displayedColumns: string[] = [
+    '#',
     'firstName',
     'lastName',
     'gender',

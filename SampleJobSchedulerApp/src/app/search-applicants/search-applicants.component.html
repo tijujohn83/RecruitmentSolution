@@ -1,1 +1,27 @@
-<p>search-applicants works!</p>
+<h1>Search Candidates</h1>
+<div class="switchViews">
+    <button mat-button color="primary" (click)="search()">Search</button>
+    <button mat-button color="primary" routerLink="/rejected">Show Rejected</button>
+    <button mat-button color="primary" routerLink="/selected">Show Selected</button>
+</div>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+        <table mat-table [dataSource]="technologiesDataSource" class="mat-elevation-z8 leftPanel">
+            <ng-container [matColumnDef]="column" *ngFor="let column of technologiesColumns">
+                <th mat-header-cell *matHeaderCellDef>Technology</th>
+                <td mat-cell *matCellDef="let emp">{{ emp[column] }}</td>
+            </ng-container>
+            <tr mat-row *matRowDef="let emprow; columns: technologiesColumns; "></tr>
+        </table>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-table [dataSource]="candidateDataSource" class="mat-elevation-z8 rightPanel">
+            <ng-container [matColumnDef]="column" *ngFor="let column of candidateColumns; ">
+                <mat-header-cell *matHeaderCellDef>{{ column }}</mat-header-cell>
+                <mat-cell *matCellDef="let emp; let i = index;">{{ column==='#'? i + 1: emp[column] }}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="candidateColumns"></mat-header-row>
+            <mat-row *matRowDef="let emprow; columns: candidateColumns;"></mat-row>
+        </mat-table>
+    </mat-sidenav-content>
+</mat-sidenav-container>
