@@ -28,6 +28,8 @@ namespace RecruitmentApi.Service
 
         public IEnumerable<Candidate> SearchCandidates(SearchCriteria searchCriteria)
         {
+            searchCriteria.Experiences = searchCriteria.Experiences.Where(e => e.YearsOfExperience > 0);
+
             return InMemoryDatabase.GetCandidates()
                 .Where(c =>
                 {

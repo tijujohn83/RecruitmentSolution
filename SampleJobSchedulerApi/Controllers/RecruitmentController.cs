@@ -22,7 +22,7 @@ namespace RecruitmentApi.Controllers
         }
 
 
-        [HttpGet("accepted")]
+        [HttpGet("selected")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<Candidate>> GetSelected()
         {
@@ -60,6 +60,10 @@ namespace RecruitmentApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<UpdateStatusResult> SetCandidateStatus(CandidateStatus candidateStatus)
         {
+            if(string.IsNullOrEmpty(candidateStatus.CandidateId))
+            {
+                return BadRequest("CandidateId not provided");
+            }
             var updateStatusResult = _recruitmentService.UpdateStatus(candidateStatus);
             if (updateStatusResult == UpdateStatusResult.NotFound)
             {

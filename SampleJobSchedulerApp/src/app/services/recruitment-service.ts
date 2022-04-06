@@ -1,19 +1,19 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from "rxjs";
-import { Candidate, Experience, Technology } from "../models/model";
+import { Candidate, CandidateStatus, Experience, Technology, UpdateStatusResult } from "../models/model";
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class RecruitmentService {
-    private acceptedUrl: string;
+    private selectedUrl: string;
     private rejectedUrl: string;
     private technologiesUrl: string;
     private searchUrl: string;
     private applicationStatusSetUrl: string;
 
     constructor(private http: HttpClient) {
-        this.acceptedUrl = 'https://localhost:5001/api/Recruitment/accepted';
+        this.selectedUrl = 'https://localhost:5001/api/Recruitment/selected';
         this.rejectedUrl = 'https://localhost:5001/api/Recruitment/rejected';
         this.technologiesUrl = 'https://localhost:5001/api/Recruitment/technologies';
         this.searchUrl = 'https://localhost:5001/api/Recruitment/search';
@@ -22,7 +22,7 @@ export class RecruitmentService {
 
 
     getAcceptedApplicants(): Observable<Candidate[]> {
-        return this.http.get(this.acceptedUrl)
+        return this.http.get(this.selectedUrl)
             .pipe(map((response: any) => {
                 return this.mapToCandidateList(response);
             }),
@@ -58,6 +58,16 @@ export class RecruitmentService {
             }),
                 catchError((_err) => {
                     return of([]);
+                }));
+    }
+
+    setApplicationStatus(candidateStatus: CandidateStatus): Observable<UpdateStatusResult> {
+        return this.http.post(this.applicationStatusSetUrl, candidateStatus)
+            .pipe(map((response: any) => {
+                return this.mapToUpdateStatusResult(response);
+            }),
+                catchError((_err) => {
+                    return of(UpdateStatusResult.Failure);
                 }));
     }
 
@@ -99,5 +109,9 @@ export class RecruitmentService {
                 guid: e.guid
             });
         });
+    }
+
+    mapToUpdateStatusResult(result: any): UpdateStatusResult {
+        return result as UpdateStatusResult;
     }
 }

@@ -47,3 +47,20 @@ export class Technology {
 export class SearchCriteria {
     experience: Experience[];
 }
+
+export enum ApplicationStatus {
+    Open = 'Open',
+    Selected = 'Selected',
+    Rejected = 'Rejected'
+}
+
+export enum UpdateStatusResult {
+    NotFound = 'NotFound',
+    Success = 'Success',
+    Failure = 'Failure'
+}
+
+export class CandidateStatus {
+    candidateId: string;
+    status:ApplicationStatus;
+}

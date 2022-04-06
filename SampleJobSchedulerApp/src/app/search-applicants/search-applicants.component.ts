@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { pipe } from 'rxjs';
-import { Candidate, Technology } from '../models/model';
+import { ApplicationStatus, Candidate, CandidateStatus, Technology } from '../models/model';
 import { RecruitmentService } from '../services/recruitment-service';
 
 @Component({
@@ -11,8 +11,8 @@ import { RecruitmentService } from '../services/recruitment-service';
 })
 export class SearchApplicantsComponent implements OnInit {
 
-  candidateDataSource:MatTableDataSource<Candidate> = new MatTableDataSource<Candidate>();
-  technologiesDataSource:MatTableDataSource<Technology> = new MatTableDataSource<Technology>();
+  candidateDataSource: MatTableDataSource<Candidate> = new MatTableDataSource<Candidate>();
+  technologiesDataSource: MatTableDataSource<Technology> = new MatTableDataSource<Technology>();
 
   technologiesColumns: string[] = [
     'name'
@@ -22,27 +22,50 @@ export class SearchApplicantsComponent implements OnInit {
     'firstName',
     'lastName',
     'gender',
-    'email',    
+    'email',
     'status',
     'experienceSummary',
+    'actions'
   ];
 
-  constructor(private recruitmentService:RecruitmentService) { 
+  constructor(private recruitmentService: RecruitmentService) {
   }
 
   ngOnInit(): void {
     this.recruitmentService.getTechnologies()
+      .pipe()
+      .subscribe((applicants) => {
+        this.technologiesDataSource.data = applicants;
+      });
+
+      this.search();
+  }
+
+  search(): void {
+    this.recruitmentService.searchApplicants([])
+      .pipe()
+      .subscribe((applicants) => {
+        this.candidateDataSource.data = applicants;
+      })
+  }
+
+  select(candidate: Candidate) {
+    this.recruitmentService.setApplicationStatus(<CandidateStatus>{ candidateId: candidate.candidateId, status: ApplicationStatus.Selected })
     .pipe()
-    .subscribe((applicants) => {
-      this.technologiesDataSource.data = applicants;
+    .subscribe(result => {
+      if(result) {
+          this.search();
+      }
     })
   }
 
-  search():void {
-    this.recruitmentService.searchApplicants([])
+  reject(candidate: Candidate) {
+    this.recruitmentService.setApplicationStatus(<CandidateStatus>{ candidateId: candidate.candidateId, status: ApplicationStatus.Rejected })
     .pipe()
-    .subscribe((applicants) => {
-      this.candidateDataSource.data = applicants;
+    .subscribe(result => {
+      if(result) {
+          this.search();
+      }
     })
   }
 
