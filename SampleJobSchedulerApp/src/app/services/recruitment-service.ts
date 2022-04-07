@@ -54,7 +54,7 @@ export class RecruitmentService {
     }
 
     reset(): Observable<ResetResult> {
-        return this.http.get(this.resetUrl)
+        return this.http.post(this.resetUrl, {})
             .pipe(map((response: any) => {
                 return this.mapToResetResult(response);
             }),

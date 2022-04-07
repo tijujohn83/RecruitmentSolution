@@ -22,7 +22,7 @@ namespace RecruitmentApi.Controllers
             _recruitmentService = recruitmentService;
         }
 
-        [HttpGet("reset")]
+        [HttpPost("reset")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ResetResult> Reset()
         {
