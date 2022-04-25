@@ -32,8 +32,11 @@ https://app.ifs.aero/EternalBlue/api/candidates
 has two parts. Angular front end and .net api back end.
 
 -- to run angular
-npm install
-ng serve
+
+  $> npm install
+  
+  $> ng serve
 
 -- to run .net api
-dotnet run
+
+  $> dotnet run
