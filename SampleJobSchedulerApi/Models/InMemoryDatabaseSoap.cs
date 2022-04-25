@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace RecruitmentApi.Models
 {
-    public static class InMemoryDatabaseV2
+    public static class InMemoryDatabaseSoap
     {
         public static ConcurrentDictionary<string, Candidate> Candidates { get; } = new ConcurrentDictionary<string, Candidate>();
         public static ConcurrentDictionary<string, Technology> Technologies { get; } = new ConcurrentDictionary<string, Technology>();

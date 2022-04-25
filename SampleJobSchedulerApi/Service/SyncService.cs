@@ -50,19 +50,19 @@ namespace RecruitmentApi.Service
 
         private Task Sync()
         {
-            var technologies = InMemoryDatabase.GetTechnologies();
+            var technologies = InMemoryDatabaseRest.GetTechnologies();
             if (technologies.Any())
             {
-                File.WriteAllTextAsync(_sourceOptions.TechnologiesFile, JsonSerializer.Serialize(InMemoryDatabase.GetTechnologies()));
+                File.WriteAllTextAsync(_sourceOptions.TechnologiesFile, JsonSerializer.Serialize(InMemoryDatabaseRest.GetTechnologies()));
             } else
             {
                 _dataSeed.Seed(true);
             }
 
-            var candidates = InMemoryDatabase.GetCandidates();
+            var candidates = InMemoryDatabaseRest.GetCandidates();
             if (candidates.Any())
             {
-                File.WriteAllTextAsync(_sourceOptions.CandidatesFile, JsonSerializer.Serialize(InMemoryDatabase.GetCandidates()));
+                File.WriteAllTextAsync(_sourceOptions.CandidatesFile, JsonSerializer.Serialize(InMemoryDatabaseRest.GetCandidates()));
             }
 
             

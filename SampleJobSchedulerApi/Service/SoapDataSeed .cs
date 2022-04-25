@@ -63,8 +63,8 @@ namespace RecruitmentApi.Service
                     candidates = clients.Select(c => new JobApi.Models.Candidate(c));                    
                 }
 
-                InMemoryDatabaseV2.AddTechnologies(technologies);
-                InMemoryDatabaseV2.AddCandidates(candidates);
+                InMemoryDatabaseSoap.AddTechnologies(technologies);
+                InMemoryDatabaseSoap.AddCandidates(candidates);
             }
             catch(Exception ex)
             {

@@ -61,8 +61,8 @@ namespace RecruitmentApi.Service
                     candidates = await JsonSerializer.DeserializeAsync<IEnumerable<Candidate>>(await client.GetStreamAsync(_sourceOptions.CandidatesUrl), _jsonSerializerOptions);
                 }
 
-                InMemoryDatabase.AddTechnologies(technologies);
-                InMemoryDatabase.AddCandidates(candidates);
+                InMemoryDatabaseRest.AddTechnologies(technologies);
+                InMemoryDatabaseRest.AddCandidates(candidates);
             }
             catch(Exception ex)
             {

@@ -9,7 +9,7 @@ namespace JobApi.Models
         {
             get
             {
-                InMemoryDatabase.Technologies.TryGetValue(TechnologyId, out Technology technology);
+                InMemoryDatabaseRest.Technologies.TryGetValue(TechnologyId, out Technology technology);
                 if(technology != null)
                 {
                     return technology.Name;
