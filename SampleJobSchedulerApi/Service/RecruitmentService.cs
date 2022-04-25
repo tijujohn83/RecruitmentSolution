@@ -9,28 +9,28 @@ namespace RecruitmentApi.Service
     {
         public IEnumerable<Candidate> GetAcceptedCandidates()
         {
-            return InMemoryDatabase.GetCandidates()
+            return InMemoryDatabaseV2.GetCandidates()
                 .Where(c => c.Status == ApplicationStatus.Selected)
                 .ToList();
         }
 
         public IEnumerable<Candidate> GetRejectedCandidates()
         {
-            return InMemoryDatabase.GetCandidates()
+            return InMemoryDatabaseV2.GetCandidates()
               .Where(c => c.Status == ApplicationStatus.Rejected)
               .ToList();
         }
 
         public IEnumerable<Technology> GetTechnologies()
         {
-            return InMemoryDatabase.GetTechnologies();
+            return InMemoryDatabaseV2.GetTechnologies();
         }
 
         public IEnumerable<Candidate> SearchCandidates(SearchCriteria searchCriteria)
         {
             searchCriteria.Experiences = searchCriteria.Experiences.Where(e => e.YearsOfExperience > 0);
 
-            return InMemoryDatabase.GetCandidates()
+            return InMemoryDatabaseV2.GetCandidates()
                 .Where(c =>
                 {
                     return c.Status == ApplicationStatus.Open
@@ -44,7 +44,7 @@ namespace RecruitmentApi.Service
 
         public UpdateStatusResult UpdateStatus(CandidateStatus candidateStatus)
         {
-            InMemoryDatabase.Candidates.TryGetValue(candidateStatus.CandidateId, out Candidate candidate);
+            InMemoryDatabaseV2.Candidates.TryGetValue(candidateStatus.CandidateId, out Candidate candidate);
             if (candidate == null)
             {
                 return UpdateStatusResult.NotFound;
@@ -59,7 +59,7 @@ namespace RecruitmentApi.Service
 
         public void Reset()
         {
-            InMemoryDatabase.Reset();
+            InMemoryDatabaseV2.Reset();
         }
 
     }

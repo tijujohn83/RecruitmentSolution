@@ -53,7 +53,7 @@ namespace RecruitmentApi
             }));
 
             services
-            .AddSingleton<IDataSeed, DataSeed>()
+            .AddSingleton<IDataSeed, SoapDataSeed>()
             .AddTransient<IRecruitmentService, RecruitmentService>()
             .AddHostedService<SyncService>();
 

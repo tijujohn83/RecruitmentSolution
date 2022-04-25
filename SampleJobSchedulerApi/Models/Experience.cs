@@ -18,5 +18,11 @@ namespace JobApi.Models
             }
         }
         public int YearsOfExperience { get; set; }
+
+        public Experience(ServiceReference1.Skill e)
+        {
+            TechnologyId = e.TechnologyId;
+            YearsOfExperience = e.YearsOfExperience;
+        }
     }
 }
